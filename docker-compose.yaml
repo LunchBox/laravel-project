@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mariadb:10.5.15
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: ws20240702
+      MARIADB_DATABASE: todo_dev
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.0-apache
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=ws20240702
+  app:
+    build: .
+    ports:
+      - '7788:80'
+      - '8000:8000'
+    volumes:
+      - './:/var/www/html/laravel_dev'
+    depends_on:
+      - db
