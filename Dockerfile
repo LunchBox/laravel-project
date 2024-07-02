@@ -6,14 +6,9 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
     && apt-get update \
-    && apt-get install -y libzip-dev \
+    && apt-get install -y libzip-dev vim \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install zip
-
-# Configure apache
-# RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf \
-#     && a2enmod rewrite \
-#     && docker-php-ext-install pdo_mysql
 
 RUN a2enmod rewrite
 
@@ -23,6 +18,13 @@ COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # create user & group with same uid & gid with the host
 RUN groupadd -g 1000 cpttm && useradd -u 1000 -g cpttm cpttm
+
+# prepare a .bashrc for adding NVM env
+RUN mkdir /home/cpttm && touch /home/cpttm/.bashrc && chown cpttm:cpttm -R /home/cpttm
+
+# install NVM
+RUN runuser -l cpttm -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
+RUN runuser -l cpttm -c '\. ~/.bashrc && nvm install stable'
 
 # nav to working space
 WORKDIR /var/www/html/laravel_dev
