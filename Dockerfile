@@ -27,5 +27,6 @@ WORKDIR /var/www/html/laravel_dev
 # make a soft link to test the project in subdomain
 RUN ln -s /var/www/html/laravel_dev/public /var/www/html/laravel-20240702
 
-# use the '-h' option to make sure the link belongs to www-data
+# make sure the link belongs to www-data
+# use the '-h' option to change owner of the link only
 RUN chown -h www-data:www-data /var/www/html/laravel-20240702
