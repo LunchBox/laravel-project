@@ -11,12 +11,21 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && docker-php-ext-install zip
 
 # Configure apache
-RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf \
-    && a2enmod rewrite \
-    && docker-php-ext-install pdo_mysql
+# RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf \
+#     && a2enmod rewrite \
+#     && docker-php-ext-install pdo_mysql
+
+RUN a2enmod rewrite
+
+RUN docker-php-ext-install pdo_mysql
+
+COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # nav to working space
 WORKDIR /var/www/html/laravel_dev
 
 # make a soft link to test the project in subdomain
 RUN ln -s /var/www/html/laravel_dev/public /var/www/html/laravel-20240702
+
+# use the '-h' option to make sure the link belongs to www-data
+RUN chown -h www-data:www-data /var/www/html/laravel-20240702
