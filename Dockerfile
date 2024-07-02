@@ -21,6 +21,9 @@ RUN docker-php-ext-install pdo_mysql
 
 COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 
+# create user & group with same uid & gid with the host
+RUN groupadd -g 1000 cpttm && useradd -u 1000 -g cpttm cpttm
+
 # nav to working space
 WORKDIR /var/www/html/laravel_dev
 
