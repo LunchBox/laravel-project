@@ -4,7 +4,10 @@
 
 
 @layer components {
+  .btn {
+    @apply inline-block pointer-events-auto rounded-md bg-gray-200 px-3 py-2 text-[0.8125rem] font-semibold leading-5 hover:bg-gray-300
+  }
   .btn-primary {
-    @apply pointer-events-auto rounded-md bg-indigo-600 px-3 py-2 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500
+    @apply bg-indigo-600 text-white hover:bg-indigo-500
   }
 }

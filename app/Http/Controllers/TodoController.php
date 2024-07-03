@@ -6,8 +6,18 @@ use App\Http\Requests\StoreTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
 use App\Models\Todo;
 
+use Illuminate\Support\Facades\Auth;
+
 class TodoController extends Controller
 {
+  // list current user's todos only
+  public function mine()
+  {
+    return view('todos.mine', [
+      'todos' => Auth::user()->todos()->get()
+    ]);
+  }
+
   // list all todos
   public function index()
   {
@@ -33,6 +43,12 @@ class TodoController extends Controller
     $todo = new Todo;
     $todo->name = $request['name'];
     $todo->description = $request['description'];
+
+    # set the current user as the owner
+    $todo->user()->associate(Auth::user());
+    # $todo->user()->associate($request->user());
+    # $todo->user_id = Auth::id();
+
     $todo->save();
 
     return redirect(route('todos.index'));

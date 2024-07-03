@@ -1,39 +1,23 @@
 <x-basic-main>
     <x-slot name="page_header">
-      {{ __('Todos') }}
+      {{ __('All Todos') }}
     </x-slot>
-
-    <div class="mb-4">
-        <a href="{{route('todos.create')}}" class="btn btn-primary">
-          <span class="">Create Todo</span>
-        </a>
-    </div>
 
     <table class="table-auto">
         <tr>
             <th class="text-nowrap">Task Name</th>
             <th class="w-100">Description</th>
-            <th>Action</th>
+            <th>Creator</th>
         </tr>
         @foreach($todos as $todo)
             <tr valign="middle">
-                <td class="text-nowrap">
+                <td class="whitespace-nowrap">
                   <a href="{{route("todos.show", $todo->id)}}">
                     {{$todo->name}}
                   </a>
                 </td>
                 <td>{{$todo->description}}</td>
-                <td class="text-nowrap">
-                    <div class="d-flex gap-1">
-                      <a href="{{route("todos.edit", $todo->id)}}" class="btn btn-success btn-sm">Update</a>
-
-                      <form action="{{route("todos.destroy", $todo->id)}}" method="post">
-                        @method('delete')
-                        @csrf
-                        <input class="btn btn-danger btn-sm" type="submit" value="Delete" />
-                      </form>
-                    </div>
-                </td>
+                <td>{{$todo->user ? $todo->user->name : ''}}</td>
             </tr>
         @endforeach
     </table>
