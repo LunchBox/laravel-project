@@ -21,6 +21,7 @@ services:
     ports:
       - '7788:80'
       - '8000:8000'
+      - '5173:5173'
     user: cpttm
     volumes:
       - './:/var/www/html/laravel_dev'
