@@ -1,24 +1,22 @@
-@extends('layouts.app')
+<x-basic-main>
+  <x-slot name="page_header">
+    {{ __('Create Todo') }}
+  </x-slot>
 
-@section('title')
-    Create Todo
-@endsection
+  <form action="{{route('todos.store')}}" method="post" class="mt-4 p-4">
+      @csrf
+      <div class="form-group m-3">
+          <label for="name" class="block">Todo Name</label>
+          <input type="text" class="form-control" name="name">
+      </div>
+      <div class="form-group m-3">
+          <label for="description" class="block">Todo Description</label>
+          <textarea class="w-64" name="description" rows="3"></textarea>
+      </div>
+      <div class="form-group m-3">
+          <input type="submit" class="btn btn-primary" value="Submit">
+      </div>
+  </form>
+</x-basic-main>
 
-@section('content')
 
-    <form action="{{route('todos.store')}}" method="post" class="mt-4 p-4">
-        @csrf
-        <div class="form-group m-3">
-            <label for="name">Todo Name</label>
-            <input type="text" class="form-control" name="name">
-        </div>
-        <div class="form-group m-3">
-            <label for="description">Todo Description</label>
-            <textarea class="form-control" name="description" rows="3"></textarea>
-        </div>
-        <div class="form-group m-3">
-            <input type="submit" class="btn btn-primary float-end" value="Submit">
-        </div>
-    </form>
-
-@endsection
