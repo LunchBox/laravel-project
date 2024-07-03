@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectTodoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,10 @@ Route::middleware('auth')->group(function () {
 
   Route::get('/todos/mine', [TodoController::class, 'mine']);
   Route::resource('todos', TodoController::class)->except(['index']);
+
+  Route::resource('projects', ProjectController::class);
+
+  Route::resource('projects.todos', TodoController::class)->shallow();
 });
 
 require __DIR__.'/auth.php';

@@ -8,6 +8,7 @@
             <th class="text-nowrap">Task Name</th>
             <th class="w-100">Description</th>
             <th>Creator</th>
+            <th>Project</th>
         </tr>
         @foreach($todos as $todo)
             <tr valign="middle">
@@ -18,6 +19,13 @@
                 </td>
                 <td>{{$todo->description}}</td>
                 <td>{{$todo->user ? $todo->user->name : ''}}</td>
+                <td>
+                  @if($todo->project) 
+                    <a href="{{route('projects.show', $todo->project)}}">
+                      {{$todo->project->name}}
+                    </a>
+                  @endif
+                </td>
             </tr>
         @endforeach
     </table>

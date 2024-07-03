@@ -3,16 +3,14 @@
     {{ __('Create Todo') }}
   </x-slot>
 
-  {{$url = empty($project->id) ? route('todos.store') : route('projects.todos.store', $project) }}
-
-  <form action="{{$url}}" method="post" class="mt-4 p-4">
+  <form action="{{route('projects.store')}}" method="post" class="mt-4 p-4">
       @csrf
       <div class="form-group m-3">
-          <label for="name" class="block">Todo Name</label>
+          <label for="name" class="block">Project Name</label>
           <input type="text" class="form-control" name="name">
       </div>
       <div class="form-group m-3">
-          <label for="description" class="block">Todo Description</label>
+          <label for="description" class="block">Project Description</label>
           <textarea class="w-64" name="description" rows="3"></textarea>
       </div>
       <div class="form-group m-3">

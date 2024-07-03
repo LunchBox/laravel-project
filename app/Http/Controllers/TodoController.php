@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
 use App\Models\Todo;
+use App\Models\Project;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -27,13 +28,16 @@ class TodoController extends Controller
   }
 
   // display a form to create a todo
-  public function create()
+  public function create(Project $project)
   {
-    return view('todos.create', []);
+
+    return view('todos.create', [
+      'project' => $project
+    ]);
   }
 
   // store todo into database
-  public function store(StoreTodoRequest $request)
+  public function store(StoreTodoRequest $request, Project $project)
   {
     $request->validate([
       'name' => 'required',
@@ -48,6 +52,10 @@ class TodoController extends Controller
     $todo->user()->associate(Auth::user());
     # $todo->user()->associate($request->user());
     # $todo->user_id = Auth::id();
+    
+    if(!empty($project->id)) {
+      $todo->project()->associate($project);
+    }
 
     $todo->save();
 
