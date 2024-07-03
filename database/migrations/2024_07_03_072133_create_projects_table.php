@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->text('description');
-            $table->foreignIdFor(User::class)->constrainted();
+            $table->foreignIdFor(User::class)->constrained();
         });
     }
 
