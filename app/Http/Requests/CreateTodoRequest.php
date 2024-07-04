@@ -6,14 +6,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use Illuminate\Support\Facades\Gate;
 
-class UpdateTodoRequest extends FormRequest
+class CreateTodoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('update', $this->todo);
+      if(!empty($this->project)) {
+        return Gate::allows('createTodos', $this->project);
+      }
+      return false;
     }
 
     /**

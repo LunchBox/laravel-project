@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class StoreTodoRequest extends FormRequest
 {
@@ -13,9 +13,8 @@ class StoreTodoRequest extends FormRequest
    */
   public function authorize(): bool
   {
-
     if(!empty($this->project)) {
-      return $this->project->user == Auth::user();
+      return Gate::allows('createTodos', $this->project);
     }
     return true;
   }
@@ -28,7 +27,8 @@ class StoreTodoRequest extends FormRequest
   public function rules(): array
   {
     return [
-      //
+      'name' => 'required',
+      'description' => 'required'
     ];
   }
 }

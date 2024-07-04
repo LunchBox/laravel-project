@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTodoRequest;
 use App\Http\Requests\StoreTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
 use App\Models\Todo;
@@ -28,7 +29,7 @@ class TodoController extends Controller
   }
 
   // display a form to create a todo
-  public function create(StoreTodoRequest $request, Project $project)
+  public function create(CreateTodoRequest $request, Project $project)
   {
     return view('todos.create', [
       'project' => $project
@@ -38,11 +39,6 @@ class TodoController extends Controller
   // store todo into database
   public function store(StoreTodoRequest $request, Project $project)
   {
-    $request->validate([
-      'name' => 'required',
-      'description' => 'required'
-    ]);
-
     $todo = new Todo;
     $todo->name = $request['name'];
     $todo->description = $request['description'];

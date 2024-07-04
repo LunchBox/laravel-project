@@ -32,6 +32,11 @@ class ProjectPolicy
         //
     }
 
+    public function createTodos(User $user, Project $project): bool
+    {
+      return $user->id === $project->user_id;
+    }
+
     /**
      * Determine whether the user can update the model.
      */
