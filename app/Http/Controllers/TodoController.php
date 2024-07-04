@@ -28,9 +28,8 @@ class TodoController extends Controller
   }
 
   // display a form to create a todo
-  public function create(Project $project)
+  public function create(StoreTodoRequest $request, Project $project)
   {
-
     return view('todos.create', [
       'project' => $project
     ]);
@@ -71,7 +70,7 @@ class TodoController extends Controller
   }
 
   // edit a todo
-  public function edit(Todo $todo)
+  public function edit(UpdateTodoRequest $request, Todo $todo)
   {
     return view('todos.edit', [
       'todo' => $todo
