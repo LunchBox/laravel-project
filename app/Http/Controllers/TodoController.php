@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTodoRequest;
 use App\Http\Requests\StoreTodoRequest;
+use App\Http\Requests\EditTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
 use App\Models\Todo;
 use App\Models\Project;
@@ -39,14 +40,14 @@ class TodoController extends Controller
   // store todo into database
   public function store(StoreTodoRequest $request, Project $project)
   {
-    $todo = new Todo;
-    $todo->name = $request['name'];
-    $todo->description = $request['description'];
+    // retrieve the validated data
+    $validated = $request->validated();
+    $todo = new Todo($validated);
 
-    # set the current user as the owner
+    // set the current user as the owner
     $todo->user()->associate(Auth::user());
-    # $todo->user()->associate($request->user());
-    # $todo->user_id = Auth::id();
+    // $todo->user()->associate($request->user());
+    // $todo->user_id = Auth::id();
     
     if(!empty($project->id)) {
       $todo->project()->associate($project);
@@ -66,7 +67,7 @@ class TodoController extends Controller
   }
 
   // edit a todo
-  public function edit(UpdateTodoRequest $request, Todo $todo)
+  public function edit(EditTodoRequest $request, Todo $todo)
   {
     return view('todos.edit', [
       'todo' => $todo
@@ -76,13 +77,7 @@ class TodoController extends Controller
   // update a todo
   public function update(UpdateTodoRequest $request, Todo $todo)
   {
-    $request->validate([
-      'name' => 'required',
-      'description' => 'required'
-    ]);
-
-    $todo->name = $request['name'];
-    $todo->description = $request['description'];
+    $todo->fill($request->validated());
     $todo->save();
 
     return redirect(route('todos.index'));

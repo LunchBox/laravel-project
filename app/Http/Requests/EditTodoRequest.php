@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use Illuminate\Support\Facades\Gate;
 
-class UpdateTodoRequest extends FormRequest
+class EditTodoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class UpdateTodoRequest extends FormRequest
     public function rules(): array
     {
         return [
-          'name' => 'required',
-          'description' => 'required'
+            //
         ];
     }
 }

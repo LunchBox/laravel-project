@@ -19,4 +19,7 @@ class Todo extends Model
     {
       return $this->belongsTo(Project::class);
     }
+
+    // allow mass assignment in controller
+    protected $fillable = ['name', 'description'];
 }
