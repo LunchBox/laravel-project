@@ -21,4 +21,7 @@ class Project extends Model
     {
       return $this->hasMany(Todo::class);
     }
+
+    // allow mass assignment in controller
+    protected $fillable = ['name', 'description'];
 }
