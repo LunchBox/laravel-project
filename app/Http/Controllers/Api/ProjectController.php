@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
+
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -20,19 +23,15 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
-        //
+      $project = new Project($request->validated());
+      $project->user()->associate(Auth::user());
+      $project->save();
+
+      return new ProjectResource($project);
     }
 
     /**
@@ -40,7 +39,6 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-      // return $project;
       return new ProjectResource($project);
     }
 
