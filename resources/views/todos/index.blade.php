@@ -3,6 +3,22 @@
       {{ __('All Todos') }}
     </x-slot>
 
+    @if(Auth::guard('admin')->check())
+      <div class="mb-4 flex gap-2">
+        {{ Auth::guard('admin')->user()->username }}
+        &middot;
+
+        <!-- Authentication -->
+        <form method="POST" action="{{ route('admin_logout') }}">
+            @csrf
+
+            <a :href="route('admin_logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                {{ __('Log Out') }}
+            </a>
+        </form>
+      </div>
+    @endif
+
     <table class="table-auto">
         <tr>
             <th class="text-nowrap">Task Name</th>

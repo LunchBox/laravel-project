@@ -7,6 +7,8 @@ use App\Http\Controllers\TodoController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectTodoController;
 
+use App\Http\Controllers\Auth\AdminSessionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +43,15 @@ Route::middleware('auth')->group(function () {
   Route::resource('projects', ProjectController::class);
 
   Route::resource('projects.todos', TodoController::class)->shallow();
+});
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
+  Route::get('/login', [AdminSessionController::class, 'create'])->name('admin_login');
+  Route::post('/login', [AdminSessionController::class, 'store']);
+
+  Route::middleware('admin')->group(function () {
+    Route::post('/logout', [AdminSessionController::class, 'destroy'])->name('admin_logout');
+  });
 });
 
 require __DIR__.'/auth.php';
