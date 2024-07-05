@@ -10,6 +10,11 @@ class Todo extends Model
 {
     use HasFactory;
 
+    public static $rules = [
+      'name' => 'required',
+      'description' => 'required'
+    ];
+
     public function user(): BelongsTo
     {
       return $this->belongsTo(User::class);

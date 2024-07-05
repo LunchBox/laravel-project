@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use Illuminate\Support\Facades\Gate;
 
+use App\Models\Todo;
+
 class StoreTodoRequest extends FormRequest
 {
   /**
@@ -26,9 +28,6 @@ class StoreTodoRequest extends FormRequest
    */
   public function rules(): array
   {
-    return [
-      'name' => 'required',
-      'description' => 'required'
-    ];
+    return Todo::$rules;
   }
 }
